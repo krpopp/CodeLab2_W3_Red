@@ -5,7 +5,6 @@ using UnityEngine;
 public class JT_InputManager : InputManagerScript
 {
 
-
     public override void SelectToken()
     {
 		if (Input.GetMouseButtonDown(0))
@@ -25,6 +24,7 @@ public class JT_InputManager : InputManagerScript
 					Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
 					Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
 
+					//BUG FIX
 					if (Mathf.Abs(pos1.x - pos2.x) + Mathf.Abs(pos1.y - pos2.y) == 1)
 					{
 						moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);

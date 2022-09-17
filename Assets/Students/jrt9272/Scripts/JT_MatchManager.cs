@@ -13,7 +13,7 @@ public class JT_MatchManager : MatchManagerScript
 				
 					if (x < gameManager.gridWidth - 2){
 						match = match || GridHasHorizontalMatch(x, y);
-						Debug.Log(match);
+					//BUG FIX
 					} if (y < gameManager.gridHeight - 2){
 						match = match || GridHasVerticalMatch(x, y);
 					}
@@ -24,6 +24,7 @@ public class JT_MatchManager : MatchManagerScript
 		return match;
     }
 
+	#region Vertical Matchmaking
 	public bool GridHasVerticalMatch(int x, int y) {
 		GameObject token1 = gameManager.gridArray[x, y];
 		GameObject token2 = gameManager.gridArray[x, y + 1];
@@ -67,6 +68,7 @@ public class JT_MatchManager : MatchManagerScript
 		
 		return matchLength;
 	}
+    #endregion
 
     public override int RemoveMatches() {
         int numRemoved = 0;
@@ -77,7 +79,6 @@ public class JT_MatchManager : MatchManagerScript
 				if(x < gameManager.gridWidth - 2) {
 
 					int horizonMatchLength = GetHorizontalMatchLength(x, y);
-
 					if(horizonMatchLength > 2) {
 
 						for(int i = x; i < x + horizonMatchLength; i++){
@@ -85,10 +86,10 @@ public class JT_MatchManager : MatchManagerScript
 						}
 					}
 				}
+				//BUG FIX
 				if(y < gameManager.gridHeight - 2) {
 
 					int verticalMatchLength = GetVerticalMatchLength(x, y);
-
 					if(verticalMatchLength > 2) {
 
 						for(int i = y; i < y + verticalMatchLength; i++){
@@ -98,6 +99,7 @@ public class JT_MatchManager : MatchManagerScript
 				}
 			}
 		}
+		//BUG FIX
 		foreach(Vector2 token in tokensToBeRemoved) {
 			if (gameManager.gridArray[(int)token.x, (int)token.y] != null) { 
 				Destroy(gameManager.gridArray[(int)token.x, (int)token.y]);

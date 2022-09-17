@@ -6,9 +6,29 @@ public class JT_MoveTokenManager : MoveTokensScript
 {
 
 	public override void Start() {
-		gameManager = GetComponent<GameManagerScript>();
+		//Override instance of child class
+		gameManager = GetComponent<JT_GameManager>();
+		//Override instance of child class
 		matchManager = GetComponent<JT_MatchManager>();
 		lerpPercent = 0;
+	}
+
+	public override void Update() {}
+
+	//BUG FIX; normalizing animation speeds
+	public void FixedUpdate () {
+
+		if(move){
+			lerpPercent += lerpSpeed;
+
+			if(lerpPercent >= 1){
+				lerpPercent = 1;
+			}
+
+			if(exchangeToken1 != null){
+				ExchangeTokens();
+			}
+		}
 	}
 
     public override bool MoveTokensToFillEmptySpaces() {
@@ -24,13 +44,16 @@ public class JT_MoveTokenManager : MoveTokensScript
 							movedToken = true;
 						}
 					}
+					//BUG FIX
 					break;
 				}
 			}
 		}
 
 		if(lerpPercent == 1) {
+			
 			move = false;
+			Debug.Log(move);
 		}
 
 		return movedToken;
