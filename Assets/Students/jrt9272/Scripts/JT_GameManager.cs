@@ -5,7 +5,7 @@ using UnityEngine;
 public class JT_GameManager : GameManagerScript
 {
 
-	bool fullGrid = false; 
+	public bool fullGrid = false; 
 
 	public virtual void Start () {
 		tokenTypes = new GameObject[] { (GameObject)Resources.Load("_Core/Tokens/blue"),
@@ -18,7 +18,7 @@ public class JT_GameManager : GameManagerScript
 		matchManager = GetComponent<JT_MatchManager>();
 		inputManager = GetComponent<JT_InputManager>();
 		moveTokenManager = GetComponent<JT_MoveTokenManager>();
-		repopulateManager = GetComponent<RepopulateScript>();
+		repopulateManager = GetComponent<JT_RepopulateManager>();
 	}
 
 	

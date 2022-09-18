@@ -209,7 +209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move: 0
   lerpPercent: 0
-  lerpSpeed: 0.001
+  lerpSpeed: 0.1
+  currentGravity: {x: 0, y: -1}
 --- !u!114 &636344705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +227,7 @@ MonoBehaviour:
   gridHeight: 8
   tokenSize: 1
   grid: {fileID: 0}
+  fullGrid: 0
 --- !u!1 &853697441
 GameObject:
   m_ObjectHideFlags: 0
