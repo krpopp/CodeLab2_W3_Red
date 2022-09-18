@@ -13,7 +13,6 @@ public class JT_GameManager : GameManagerScript
 		matchManager = GetComponent<JT_MatchManager>();
 		inputManager = GetComponent<JT_InputManager>();
 		moveTokenManager = GetComponent<JT_MoveTokenManager>();
-		Debug.Log(moveTokenManager.gameObject);
 		repopulateManager = GetComponent<JT_RepopulateManager>();
 
 		tokenArray = new JT_Token[gridWidth, gridHeight];

@@ -39,7 +39,6 @@ public class JT_MoveTokenManager : MoveTokensScript
 	public void SetupTokenSwap(JT_Token token1, Vector2 pos1,
 								JT_Token token2, Vector2 pos2, bool reversable) {
 		SetupTokenMove();
-		Debug.Log("swapping tokens");
 
 		swapToken1 = token1;
 		swapToken2 = token2;
@@ -60,7 +59,7 @@ public class JT_MoveTokenManager : MoveTokensScript
 
 		if(lerpPercent == 1){
 			gameManager.tokenArray[(int)swapToken1.coord.x, (int)swapToken1.coord.y] = swapToken2;
-			gameManager.tokenArray[(int)swapToken2.coord.x, (int)swapToken2.coord.y] = swapToken2;
+			gameManager.tokenArray[(int)swapToken2.coord.x, (int)swapToken2.coord.y] = swapToken1;
 			
 			Vector2 tempCoord = swapToken1.coord;
 			swapToken1.coord = swapToken2.coord;

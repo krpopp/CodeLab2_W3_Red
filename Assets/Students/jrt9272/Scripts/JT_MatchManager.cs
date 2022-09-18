@@ -17,96 +17,84 @@ public class JT_MatchManager : MatchManagerScript
 		
 		for(int x = 0; x < gameManager.gridWidth; x++){
 			for(int y = 0; y < gameManager.gridHeight ; y++){
-				match = match || CheckForMatch(x, y);
-				if (match) break;
+				match = CheckForMatch(x, y) || match;
 			}
-			if (match) break;
 		}
-
+		Debug.Log("Matched? " + match);
 		return match;
     }
 
+	//I combined the vert + horz HasMatch and MatchLength functions
 	public bool CheckForMatch(int x, int y) {
-		//Check for horz matches
-		if (x < gameManager.gridWidth - 2) {
-			JT_Token token1 = gameManager.tokenArray[x, y];
-			JT_Token token2 = gameManager.tokenArray[x + 1, y];
-			JT_Token token3 = gameManager.tokenArray[x + 2, y];
-
-			if (token1 != null && token2 != null && token3 != null)
-				return (token1.color == token2.color && token2.color == token3.color);
-			else return false;
-		//Check for vert matches
-		} else if (y < gameManager.gridWidth - 2) {
-			JT_Token token1 = gameManager.tokenArray[x, y];
-			JT_Token token2 = gameManager.tokenArray[x, y + 1];
-			JT_Token token3 = gameManager.tokenArray[x, y + 2];
-		
-			if (token1 != null && token2 != null && token3 != null)
-				return (token1.color == token2.color && token2.color == token3.color);
-			else return false;
-		} else return false;
-	}
-
-	public List<JT_Token> GetMatchedTokens() {
-		List<JT_Token> tokens = new List<JT_Token>();
-
-		for(int x = 0; x < gameManager.gridWidth; x++) {
-			for(int y = 0; y < gameManager.gridHeight ; y++) {
-				if(x < gameManager.gridWidth - 2 || y < gameManager.gridHeight - 2) {
-					Vector2 matchLength = GetMatchLength(x, y);
-					if(matchLength.x > 2) {
-						for(int i = x; i < x + matchLength.x; i++){
-							tokens.Add(gameManager.tokenArray[i, y]); 						
-						}
-					}
-					if(matchLength.y > 2) {
-						for(int i = x; i < x + matchLength.x; i++){
-							tokens.Add(gameManager.tokenArray[x, i]); 						
-						}
-					}
-				}
+		int yMatchLength = 0;
+		int xMatchLength = 0;
+		//Check input token for matches above and to the right
+		if (y < gameManager.gridHeight - 2) {		
+			for (int i = y + 1; i < gameManager.gridHeight; i++) { 
+				if (gameManager.tokenArray[x,y].color == gameManager.tokenArray[x,i].color) {
+					yMatchLength = i - y + 1;
+				} else break;
 			}
 		}
-		return tokens;
-	}
-
-	public Vector2 GetMatchLength(int x, int y) {
-		int xMatch = 0;
-		int yMatch = 0;
-		JT_Token xNext = null;
-		JT_Token yNext = null;
-		if (gameManager.tokenArray[x,y] != null) { 
-			for (int i = 1; i < gameManager.gridWidth - x; i++) {
-				xNext = gameManager.tokenArray[x + i, y];				
-				if (xNext != null && gameManager.tokenArray[x, y].color == xNext.color)
-					xMatch++;				
+		if (x < gameManager.gridWidth - 2) { 
+			for (int i = x + 1; i < gameManager.gridWidth; i++) { 
+				if (gameManager.tokenArray[x,y].color == gameManager.tokenArray[i,y].color) {
+					xMatchLength = i - x + 1;
+				} else break;
 			}
-			for (int i = 1; i < gameManager.gridHeight - y; i++) {
-				yNext = gameManager.tokenArray[x, y + i];
-				if (yNext != null && gameManager.tokenArray[x, y].color == yNext.color)
-					yMatch++;
-			}		
 		}
-		return new Vector2(xMatch, yMatch);
+		//If there is a match of 3 or more, store the tokens to be removed
+		if (yMatchLength > 2) { 
+			for (int i = y; i < y + yMatchLength; i++) {
+				//If we haven't already stored this token
+				if (!matchedTokens.Find(t => t.coord == gameManager.tokenArray[x,i].coord))
+					matchedTokens.Add(gameManager.tokenArray[x,i]); //Store it
+			}
+		}
+		if (xMatchLength > 2) { 
+			for (int i = x; i < x + xMatchLength; i++) {
+				//If we haven't already stored this token
+				if (!matchedTokens.Find(t => t.coord == gameManager.tokenArray[i,y].coord))
+					matchedTokens.Add(gameManager.tokenArray[i,y]); //Store it
+			}
+		}
+		//If either directions had a match of 3 or more
+		return (xMatchLength > 2) || (yMatchLength > 2);
 	}
-
 
     public override int RemoveMatches() {
         int numRemoved = 0;
-		matchedTokens = GetMatchedTokens();
-		foreach(JT_Token token in matchedTokens) {
-			Debug.Log("(" + token.coord.x + ", " + token.coord.y + ")");
-		}
+		int[] colorCount = { 0, 0, 0, 0, 0 };
+
 		//BUG FIX
 		foreach(JT_Token token in matchedTokens) {
 			if (gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y] != null) { 
-				
-				Destroy(gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y].gameObject);
+				switch(token.color) { 
+					default;
+						break;
+					case JT_Token.TokenColor.red:
+						colorCount[0]++;
+						break;
+					case JT_Token.TokenColor.yellow:
+						colorCount[1]++;
+						break;
+					case JT_Token.TokenColor.green:
+						colorCount[2]++;
+						break;
+					case JT_Token.TokenColor.blue:
+						colorCount[3]++;
+						break;
+					case JT_Token.TokenColor.purple:
+						colorCount[4]++;
+						break;
+				}
+
+				Destroy(token.gameObject);
 				gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y] = null;
 				numRemoved++;
 			}
 		}
+		matchedTokens = new List<JT_Token>();
 		return numRemoved;
     }
 

@@ -4,38 +4,38 @@ using UnityEngine;
 
 public class JT_RepopulateManager : RepopulateScript
 {
-	JT_GameManager jtGameManager;
+	JT_GameManager gameManager;
 	JT_MoveTokenManager moveManager;
 
     public override void Start () {
-		jtGameManager = GetComponent<JT_GameManager>();
+		gameManager = GetComponent<JT_GameManager>();
 		moveManager = GetComponent<JT_MoveTokenManager>();
 	}
 
 	public override void AddNewTokensToRepopulateGrid(){
 
 		if (moveManager.currentGravity.y != 0) {
-			for(int x = 0; x < jtGameManager.gridWidth; x++){
+			for(int x = 0; x < gameManager.gridWidth; x++){
 
 				if (moveManager.currentGravity.y > 0) { 
-					if (jtGameManager.tokenArray[x, 0] == null) {
-						jtGameManager._AddTokenToPosInGrid(x, 0, jtGameManager.grid);
+					if (gameManager.tokenArray[x, 0] == null) {
+						gameManager._AddTokenToPosInGrid(x, 0, gameManager.grid);
 					}
 				} else {
-					if(jtGameManager.tokenArray[x, jtGameManager.gridHeight - 1] == null) {
-						jtGameManager._AddTokenToPosInGrid(x, jtGameManager.gridHeight - 1, jtGameManager.grid);
+					if(gameManager.tokenArray[x, gameManager.gridHeight - 1] == null) {
+						gameManager._AddTokenToPosInGrid(x, gameManager.gridHeight - 1, gameManager.grid);
 					}
 				}	
 			}
 		} else { 
-			for (int y = 0; y < jtGameManager.gridHeight; y++) { 
+			for (int y = 0; y < gameManager.gridHeight; y++) { 
 				if (moveManager.currentGravity.x > 0) { 
-					if (jtGameManager.tokenArray[0, y] == null) {
-						jtGameManager._AddTokenToPosInGrid(0, y, jtGameManager.grid);
+					if (gameManager.tokenArray[0, y] == null) {
+						gameManager._AddTokenToPosInGrid(0, y, gameManager.grid);
 					}
 				} else {
-					if(jtGameManager.tokenArray[jtGameManager.gridWidth - 1, y] == null) {
-						jtGameManager._AddTokenToPosInGrid(jtGameManager.gridWidth - 1, y, jtGameManager.grid);
+					if(gameManager.tokenArray[gameManager.gridWidth - 1, y] == null) {
+						gameManager._AddTokenToPosInGrid(gameManager.gridWidth - 1, y, gameManager.grid);
 					}
 				}	
 			}
