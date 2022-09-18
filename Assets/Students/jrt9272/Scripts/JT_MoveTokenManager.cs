@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JT_MoveTokenManager : MoveTokensScript
 {
+
 	//MATCH-3 MOD; Vector which affects the direction tokens fall
 	public Vector2 currentGravity = new Vector2(0, -1);
 
@@ -76,7 +77,7 @@ public class JT_MoveTokenManager : MoveTokensScript
 					for (int x = gameManager.gridWidth - 2; x > -1; x--) { 
 						if (gameManager.gridArray[x + (int)currentGravity.x, y + (int)currentGravity.y] == null) {
 							for(int pos = x; pos > -1; pos--) {
-								token = gameManager.gridArray[x, pos];
+								token = gameManager.gridArray[pos, y];
 								if(token != null){
 									MoveTokenToEmptyPos(pos, y, pos + (int)currentGravity.x, y, token);
 									movedToken = true;
@@ -90,7 +91,7 @@ public class JT_MoveTokenManager : MoveTokensScript
 					for (int x = 1; x < gameManager.gridWidth; x++) {
 						if (gameManager.gridArray[x + (int)currentGravity.x, y + (int)currentGravity.y] == null) {
 							for(int pos = x; pos < gameManager.gridWidth; pos++) {
-								token = gameManager.gridArray[x, pos];
+								token = gameManager.gridArray[pos, y];
 								if(token != null){
 									MoveTokenToEmptyPos(pos, y, pos + (int)currentGravity.x, y, token);
 									movedToken = true;

@@ -5,13 +5,10 @@ using UnityEngine;
 public class JT_GameManager : GameManagerScript
 {
 
+	[SerializeField] new GameObject[] tokenTypes; 
 	public bool fullGrid = false; 
 
-	public virtual void Start () {
-		tokenTypes = new GameObject[] { (GameObject)Resources.Load("_Core/Tokens/blue"),
-										(GameObject)Resources.Load("_Core/Tokens/red"),
-										(GameObject)Resources.Load("_Core/Tokens/green"),
-										(GameObject)Resources.Load("_Core/Tokens/yellow")};
+	public override void Start () {
 		gridArray = new GameObject[gridWidth, gridHeight];
 		MakeGrid();
 
@@ -49,7 +46,7 @@ public class JT_GameManager : GameManagerScript
 		grid = new GameObject("TokenGrid");
 		for(int x = 0; x < gridWidth; x++){
 			for(int y = 0; y < gridHeight; y++){
-				AddTokenToPosInGrid(x, y, grid);
+				_AddTokenToPosInGrid(x, y, grid);
 			}
 		}
 	}
@@ -65,6 +62,16 @@ public class JT_GameManager : GameManagerScript
 			}
 		}		
 		return empty;
+	}
+
+	public void _AddTokenToPosInGrid(int x, int y, GameObject parent){
+		Vector3 position = GetWorldPositionFromGridPosition(x, y);
+		GameObject token = 
+			Instantiate(tokenTypes[Random.Range(0, tokenTypes.Length)], 
+			            position, 
+			            Quaternion.identity) as GameObject;
+		token.transform.parent = parent.transform;
+		gridArray[x, y] = token;
 	}
 
 }
