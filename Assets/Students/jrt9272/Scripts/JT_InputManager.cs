@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class JT_InputManager : InputManagerScript
 {
+	new JT_GameManager gameManager;
+	new JT_MoveTokenManager moveManager;
+	JT_Token selectedToken;
+
+	public override void Start() {
+		moveManager = GetComponent<JT_MoveTokenManager>();
+		gameManager = GetComponent<JT_GameManager>();
+	}
 
     public override void SelectToken()
     {
@@ -15,21 +23,19 @@ public class JT_InputManager : InputManagerScript
 
 			if (collider != null)
 			{
-				if (selected == null)
-				{
-					selected = collider.gameObject;
+				if (selectedToken == null && collider.gameObject.GetComponent<JT_Token>()) {
+					selectedToken = collider.gameObject.GetComponent<JT_Token>();
 				}
-				else
-				{
-					Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
-					Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
+				else if (collider.gameObject.GetComponent<JT_Token>()) {
+					JT_Token swapToken = collider.gameObject.GetComponent<JT_Token>();
 
 					//BUG FIX
-					if (Mathf.Abs(pos1.x - pos2.x) + Mathf.Abs(pos1.y - pos2.y) == 1)
-					{
-						moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);
+					if (Mathf.Abs(selectedToken.coord.x - swapToken.coord.x) + 
+						Mathf.Abs(selectedToken.coord.y - swapToken.coord.y) == 1) {
+						moveManager.SetupTokenSwap(selectedToken, new Vector2 (swapToken.coord.x, swapToken.coord.y),
+													swapToken, new Vector2 (selectedToken.coord.x, selectedToken.coord.y), true);
 					}
-					selected = null;
+					selectedToken = null;
 				}
 			}
 		}

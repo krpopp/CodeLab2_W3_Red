@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class JT_GameManager : GameManagerScript
 {
+	public JT_Token[,] tokenArray;
 
-	[SerializeField] new GameObject[] tokenTypes; 
+	[SerializeField] GameObject[] tokenPrefabs; 
 	public bool fullGrid = false; 
 
 	public override void Start () {
-		gridArray = new GameObject[gridWidth, gridHeight];
-		MakeGrid();
-
 		matchManager = GetComponent<JT_MatchManager>();
 		inputManager = GetComponent<JT_InputManager>();
 		moveTokenManager = GetComponent<JT_MoveTokenManager>();
+		Debug.Log(moveTokenManager.gameObject);
 		repopulateManager = GetComponent<JT_RepopulateManager>();
+
+		tokenArray = new JT_Token[gridWidth, gridHeight];
+		MakeGrid();
+
+
 	}
 
 	
@@ -56,7 +60,7 @@ public class JT_GameManager : GameManagerScript
 		bool empty = false; 
 		for(int x = 0; x < gridWidth; x++){
 			for(int y = 0; y < gridHeight ; y++){
-				if(gridArray[x, y] == null){
+				if(tokenArray[x, y] == null){
 					empty = true;
 				}
 			}
@@ -66,12 +70,12 @@ public class JT_GameManager : GameManagerScript
 
 	public void _AddTokenToPosInGrid(int x, int y, GameObject parent){
 		Vector3 position = GetWorldPositionFromGridPosition(x, y);
-		GameObject token = 
-			Instantiate(tokenTypes[Random.Range(0, tokenTypes.Length)], 
+		JT_Token token = 
+			(Instantiate(tokenPrefabs[Random.Range(0, tokenPrefabs.Length)], 
 			            position, 
-			            Quaternion.identity) as GameObject;
+			            Quaternion.identity) as GameObject).GetComponent<JT_Token>();
 		token.transform.parent = parent.transform;
-		gridArray[x, y] = token;
+		tokenArray[x, y] = token;
+		token.coord = new Vector2 (x,y);
 	}
-
 }

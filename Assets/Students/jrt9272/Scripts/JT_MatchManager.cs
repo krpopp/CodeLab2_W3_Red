@@ -4,110 +4,110 @@ using UnityEngine;
 
 public class JT_MatchManager : MatchManagerScript
 {
+	new protected JT_GameManager gameManager;
+	[SerializeField] List<JT_Token> matchedTokens = new List<JT_Token>();
+
+	public override void Start() {
+		gameManager = GetComponent<JT_GameManager>();
+	}
+
     public override bool GridHasMatch()
     {
 		bool match = false;
 		
 		for(int x = 0; x < gameManager.gridWidth; x++){
 			for(int y = 0; y < gameManager.gridHeight ; y++){
-				
-					if (x < gameManager.gridWidth - 2){
-						match = match || GridHasHorizontalMatch(x, y);
-					//BUG FIX
-					} if (y < gameManager.gridHeight - 2){
-						match = match || GridHasVerticalMatch(x, y);
-					}
-				
+				match = match || CheckForMatch(x, y);
+				if (match) break;
 			}
+			if (match) break;
 		}
 
 		return match;
     }
 
-	#region Vertical Matchmaking
-	public bool GridHasVerticalMatch(int x, int y) {
-		GameObject token1 = gameManager.gridArray[x, y];
-		GameObject token2 = gameManager.gridArray[x, y + 1];
-		GameObject token3 = gameManager.gridArray[x, y + 2];
+	public bool CheckForMatch(int x, int y) {
+		//Check for horz matches
+		if (x < gameManager.gridWidth - 2) {
+			JT_Token token1 = gameManager.tokenArray[x, y];
+			JT_Token token2 = gameManager.tokenArray[x + 1, y];
+			JT_Token token3 = gameManager.tokenArray[x + 2, y];
+
+			if (token1 != null && token2 != null && token3 != null)
+				return (token1.color == token2.color && token2.color == token3.color);
+			else return false;
+		//Check for vert matches
+		} else if (y < gameManager.gridWidth - 2) {
+			JT_Token token1 = gameManager.tokenArray[x, y];
+			JT_Token token2 = gameManager.tokenArray[x, y + 1];
+			JT_Token token3 = gameManager.tokenArray[x, y + 2];
 		
-		if(token1 != null && token2 != null && token3 != null){
-			SpriteRenderer sr1 = token1.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr2 = token2.GetComponent<SpriteRenderer>();
-			SpriteRenderer sr3 = token3.GetComponent<SpriteRenderer>();
-			
-			return (sr1.sprite == sr2.sprite && sr2.sprite == sr3.sprite);
-		} else {
-			return false;
-		}
+			if (token1 != null && token2 != null && token3 != null)
+				return (token1.color == token2.color && token2.color == token3.color);
+			else return false;
+		} else return false;
 	}
 
-	public int GetVerticalMatchLength(int x, int y) {
-		int matchLength = 1;
-		
-		GameObject first = gameManager.gridArray[x, y];
-
-		if(first != null){
-			SpriteRenderer sr1 = first.GetComponent<SpriteRenderer>();
-			
-			for(int i = y + 1; i < gameManager.gridHeight; i++){
-				GameObject other = gameManager.gridArray[x, i];
-
-				if(other != null){
-					SpriteRenderer sr2 = other.GetComponent<SpriteRenderer>();
-
-					if(sr1.sprite == sr2.sprite){
-						matchLength++;
-					} else {
-						break;
-					}
-				} else {
-					break;
-				}
-			}
-		}
-		
-		return matchLength;
-	}
-    #endregion
-
-    public override int RemoveMatches() {
-        int numRemoved = 0;
-		List<Vector2> tokensToBeRemoved = new List<Vector2>();
+	public List<JT_Token> GetMatchedTokens() {
+		List<JT_Token> tokens = new List<JT_Token>();
 
 		for(int x = 0; x < gameManager.gridWidth; x++) {
 			for(int y = 0; y < gameManager.gridHeight ; y++) {
-				if(x < gameManager.gridWidth - 2) {
-
-					int horizonMatchLength = GetHorizontalMatchLength(x, y);
-					if(horizonMatchLength > 2) {
-
-						for(int i = x; i < x + horizonMatchLength; i++){
-							tokensToBeRemoved.Add(new Vector2(i, y)); 						
+				if(x < gameManager.gridWidth - 2 || y < gameManager.gridHeight - 2) {
+					Vector2 matchLength = GetMatchLength(x, y);
+					if(matchLength.x > 2) {
+						for(int i = x; i < x + matchLength.x; i++){
+							tokens.Add(gameManager.tokenArray[i, y]); 						
 						}
 					}
-				}
-				//BUG FIX
-				if(y < gameManager.gridHeight - 2) {
-
-					int verticalMatchLength = GetVerticalMatchLength(x, y);
-					if(verticalMatchLength > 2) {
-
-						for(int i = y; i < y + verticalMatchLength; i++){
-							tokensToBeRemoved.Add(new Vector2(x, i));
+					if(matchLength.y > 2) {
+						for(int i = x; i < x + matchLength.x; i++){
+							tokens.Add(gameManager.tokenArray[x, i]); 						
 						}
 					}
 				}
 			}
 		}
-		//BUG FIX
-		foreach(Vector2 token in tokensToBeRemoved) {
-			if (gameManager.gridArray[(int)token.x, (int)token.y] != null) { 
-				Destroy(gameManager.gridArray[(int)token.x, (int)token.y]);
+		return tokens;
+	}
 
-				gameManager.gridArray[(int)token.x, (int)token.y] = null;
+	public Vector2 GetMatchLength(int x, int y) {
+		int xMatch = 0;
+		int yMatch = 0;
+		JT_Token xNext = null;
+		JT_Token yNext = null;
+		if (gameManager.tokenArray[x,y] != null) { 
+			for (int i = 1; i < gameManager.gridWidth - x; i++) {
+				xNext = gameManager.tokenArray[x + i, y];				
+				if (xNext != null && gameManager.tokenArray[x, y].color == xNext.color)
+					xMatch++;				
+			}
+			for (int i = 1; i < gameManager.gridHeight - y; i++) {
+				yNext = gameManager.tokenArray[x, y + i];
+				if (yNext != null && gameManager.tokenArray[x, y].color == yNext.color)
+					yMatch++;
+			}		
+		}
+		return new Vector2(xMatch, yMatch);
+	}
+
+
+    public override int RemoveMatches() {
+        int numRemoved = 0;
+		matchedTokens = GetMatchedTokens();
+		foreach(JT_Token token in matchedTokens) {
+			Debug.Log("(" + token.coord.x + ", " + token.coord.y + ")");
+		}
+		//BUG FIX
+		foreach(JT_Token token in matchedTokens) {
+			if (gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y] != null) { 
+				
+				Destroy(gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y].gameObject);
+				gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y] = null;
 				numRemoved++;
 			}
 		}
 		return numRemoved;
     }
+
 }

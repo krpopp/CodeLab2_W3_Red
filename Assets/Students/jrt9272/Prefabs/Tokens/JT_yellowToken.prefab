@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6194804422749620547}
   - component: {fileID: 1347846159042387201}
+  - component: {fileID: -7773393452983807960}
   - component: {fileID: 280862915426912541}
   m_Layer: 0
   m_Name: JT_yellowToken
@@ -85,6 +86,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-7773393452983807960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381326564754457956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c04bf0e5798e7843b672481ee6c3e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gShift: 2
+  color: 1
+  graphic: 0
 --- !u!61 &280862915426912541
 BoxCollider2D:
   m_ObjectHideFlags: 0
