@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HaoMatchManager : MatchManagerScript
 {
+    public List<Vector2Int> dualMatchList = new List<Vector2Int>();
+
     public override bool GridHasMatch()
     {
         bool hasMatch = base.GridHasMatch();
@@ -85,18 +87,44 @@ public class HaoMatchManager : MatchManagerScript
 
     public override int RemoveMatches()
     {
-        int numRemoved = base.RemoveMatches();
+        int numRemoved = 0; //declars integer value and sets to zero. 
 
         for (int x = 0; x < gameManager.gridWidth; x++)
-        { //for each position in grid width;
+        { //for each column of grid;
             for (int y = 0; y < gameManager.gridHeight; y++)
-            { //and each position in grid height, 
+            { //and each row in grid, 
+                if (x < gameManager.gridWidth - 2)
+                {
+                    //Checks if this x is one of the last elements in the row, since the
+                    //match check needs to be performed through tthe first element of the grid row (left ot right)
+                    int horizonMatchLength = GetHorizontalMatchLength(x, y); //checks length of horizontal match and saves it as local integer. 
+
+
+                    if (horizonMatchLength > 2)
+                    { //if the match length is greater than 2,
+
+                        for (int i = x; i < x + horizonMatchLength; i++)
+                        { //for each token in the match, 
+
+                            GameObject token = gameManager.gridArray[i, y];  //saves object as a token gameObject. 
+                                                                             //Destroy(token); //and DESTROYS it. 
+                            dualMatchList.Add(new Vector2Int(i, y)); //Adds each token in the match to a vector 2 int list, based on each token's x position in the grid. 
+                                                                     //gameManager.gridArray[i, y] = null; //sets the token's position as null
+                            numRemoved++; //adds the amount of tokens removed from grid. 
+
+                        }
+                    }
+
+                }
+                //------------------------
+
+
                 if (y < gameManager.gridHeight - 2)
                 {
                     //Checks if this x is one of the last elements in the row, since the
                     //match check needs to be performed through tthe first element of the grid row (left ot right)
 
-                    int verticalMatchLength = GetVerticalMatchLength(x, y); //checks length of horizontal match and saves it as local integer. 
+                    int verticalMatchLength = GetVerticalMatchLength(x, y); //checks length of vertical match and saves it as local integer. 
 
                     if (verticalMatchLength > 2)
                     { //if the match length is greater than 2,
@@ -104,19 +132,27 @@ public class HaoMatchManager : MatchManagerScript
                         for (int i = y; i < y + verticalMatchLength; i++)
                         { //for each token in the match, 
                             GameObject token = gameManager.gridArray[x, i];  //saves object as a token gameObject. 
-                            Destroy(token); //and DESTROYS it. 
-
-                            gameManager.gridArray[x, i] = null; //sets the token's position as null
+                            dualMatchList.Add(new Vector2Int(x, i)); //adds each token in a vertical match into the list based on y position in grid. 
+                                                                     //gameManager.gridArray[x, i] = null; //sets the token's position as null
                             numRemoved++; //adds the amount of tokens removed from grid. 
                         }
                     }
                 }
 
+                //------------------------
+
+
             }
         }
 
-
-                return numRemoved;
+        //for each object in the list;
+        for (int i = 0; i < dualMatchList.Count; i++)
+        {
+            Destroy(gameManager.gridArray[dualMatchList[i].x, dualMatchList[i].y]); //destroy each object based on it's position in the grid. 
+            gameManager.gridArray[dualMatchList[i].x, dualMatchList[i].y] = null;   //sets the grid position to null so that it can be repopulated. 
+        }
+        dualMatchList.Clear(); //clears the list. 
+        return numRemoved;//returns how many tokens were removed. 
     }
 
 }
