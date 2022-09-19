@@ -20,7 +20,7 @@ public class HaoMoveTokensScript : MoveTokensScript
 		{
 			if (!matchManager.GridHasMatch() )
 			{
-				haoGameManager.score--;
+				haoGameManager.score-=2;
 			}
 
 		}

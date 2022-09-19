@@ -10,6 +10,8 @@ public class HaoGameManager : GameManagerScript
     public GameObject smileFaceParent;
     float timerForDisplayingFaces;
     public Text scoreText;
+    public GameObject win;
+    public GameObject instruction;
 
     public override void Start()
     {
@@ -36,7 +38,7 @@ public class HaoGameManager : GameManagerScript
         if (!GridHasEmpty())
         {
             timerForDisplayingFaces += Time.deltaTime;
-            if (timerForDisplayingFaces > 2)
+            if (timerForDisplayingFaces > 2-score/200)
             {
                 smileFaceParent.SetActive(true);
             }
@@ -50,6 +52,21 @@ public class HaoGameManager : GameManagerScript
 
         scoreText.text ="Score : " + score.ToString();
 
+        if(score > 200)
+        {
+            win.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            instruction.SetActive(false);
+        }
+
+        if (instruction.activeSelf)
+        {
+            score = 0;
+            timerForDisplayingFaces = 0;
+        }
 
      }
 
