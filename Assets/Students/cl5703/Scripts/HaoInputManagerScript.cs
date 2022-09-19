@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HaoInputManagerScript : InputManagerScript
 {
+	    
     public override void SelectToken()
     {
 		if (Input.GetMouseButtonDown(0))

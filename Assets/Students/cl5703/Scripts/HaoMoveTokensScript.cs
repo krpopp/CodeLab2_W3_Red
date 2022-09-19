@@ -4,6 +4,29 @@ using UnityEngine;
 
 public class HaoMoveTokensScript : MoveTokensScript
 {
+
+	HaoGameManager haoGameManager;
+
+    public override void Start()
+    {
+        base.Start();
+		haoGameManager = GetComponent<HaoGameManager>();
+    }
+
+    public override void ExchangeTokens()
+    {
+        base.ExchangeTokens();
+		if (lerpPercent == 1)
+		{
+			if (!matchManager.GridHasMatch() )
+			{
+				haoGameManager.score--;
+			}
+
+		}
+	}
+
+
     public override bool MoveTokensToFillEmptySpaces()
 	{
 		bool movedToken = false;

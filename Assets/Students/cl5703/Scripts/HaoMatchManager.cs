@@ -5,6 +5,13 @@ using UnityEngine;
 public class HaoMatchManager : MatchManagerScript
 {
     public List<Vector2Int> dualMatchList = new List<Vector2Int>();
+    HaoGameManager haoGameManager;
+
+    public override void Start()
+    {
+        base.Start();
+        haoGameManager = GetComponent<HaoGameManager>();
+    }
 
     public override bool GridHasMatch()
     {
@@ -111,6 +118,7 @@ public class HaoMatchManager : MatchManagerScript
                             dualMatchList.Add(new Vector2Int(i, y)); //Adds each token in the match to a vector 2 int list, based on each token's x position in the grid. 
                                                                      //gameManager.gridArray[i, y] = null; //sets the token's position as null
                             numRemoved++; //adds the amount of tokens removed from grid. 
+                            haoGameManager.score++;
 
                         }
                     }
@@ -135,6 +143,7 @@ public class HaoMatchManager : MatchManagerScript
                             dualMatchList.Add(new Vector2Int(x, i)); //adds each token in a vertical match into the list based on y position in grid. 
                                                                      //gameManager.gridArray[x, i] = null; //sets the token's position as null
                             numRemoved++; //adds the amount of tokens removed from grid. 
+                            haoGameManager.score++;
                         }
                     }
                 }
