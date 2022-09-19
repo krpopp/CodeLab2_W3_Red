@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class HaoMatchManager : MatchManagerScript
 {
-    public List<Vector2Int> dualMatchList = new List<Vector2Int>();
+    public List<Vector2Int> dualMatchList = new List<Vector2Int>(); //make a list to store token's position in grid
+                                                                    //so that we can destroy them at the same time to avoid the dual matches bug
     HaoGameManager haoGameManager;
 
-    public override void Start()
+    public override void Start() // extend the class this inherit
     {
-        base.Start();
-        haoGameManager = GetComponent<HaoGameManager>();
+        base.Start();//run the codes in the original Start function
+        haoGameManager = GetComponent<HaoGameManager>();//access the game manager I created
     }
 
     public override bool GridHasMatch()
@@ -23,7 +24,7 @@ public class HaoMatchManager : MatchManagerScript
             {
                 if (y < gameManager.gridHeight - 2)
                 {
-                    hasMatch = hasMatch || GridHasVerticalMatch(x, y);
+                    hasMatch = hasMatch || GridHasVerticalMatch(x, y); // check the y value to check if there are vertical matches
                 }
             }
         }
@@ -58,7 +59,7 @@ public class HaoMatchManager : MatchManagerScript
     {
         int matchLength = 1; //declaring matchlength integer. 
 
-        GameObject first = gameManager.gridArray[x, y]; //declars the first token in the match as a GameObject. 
+        GameObject first = gameManager.gridArray[x, y]; //declares the first token in the match as a GameObject. 
 
         if (first != null)
         { //if first in match is not null:
@@ -118,7 +119,7 @@ public class HaoMatchManager : MatchManagerScript
                             dualMatchList.Add(new Vector2Int(i, y)); //Adds each token in the match to a vector 2 int list, based on each token's x position in the grid. 
                                                                      //gameManager.gridArray[i, y] = null; //sets the token's position as null
                             numRemoved++; //adds the amount of tokens removed from grid. 
-                            haoGameManager.score++;
+                            haoGameManager.score++;//add the score according to how many token you destroyed
 
                         }
                     }
@@ -143,7 +144,7 @@ public class HaoMatchManager : MatchManagerScript
                             dualMatchList.Add(new Vector2Int(x, i)); //adds each token in a vertical match into the list based on y position in grid. 
                                                                      //gameManager.gridArray[x, i] = null; //sets the token's position as null
                             numRemoved++; //adds the amount of tokens removed from grid. 
-                            haoGameManager.score++;
+                            haoGameManager.score++;//add the score according to how many token you destroyed
                         }
                     }
                 }
