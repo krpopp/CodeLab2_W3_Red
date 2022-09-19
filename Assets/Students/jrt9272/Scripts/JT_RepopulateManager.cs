@@ -14,10 +14,10 @@ public class JT_RepopulateManager : RepopulateScript
 
 	public override void AddNewTokensToRepopulateGrid(){
 
-		if (moveManager.currentGravity.y != 0) {
+		if (gameManager.currentGravity.y != 0) {
 			for(int x = 0; x < gameManager.gridWidth; x++){
 
-				if (moveManager.currentGravity.y > 0) { 
+				if (gameManager.currentGravity.y > 0) { 
 					if (gameManager.tokenArray[x, 0] == null) {
 						gameManager._AddTokenToPosInGrid(x, 0, gameManager.grid);
 					}
@@ -29,7 +29,7 @@ public class JT_RepopulateManager : RepopulateScript
 			}
 		} else { 
 			for (int y = 0; y < gameManager.gridHeight; y++) { 
-				if (moveManager.currentGravity.x > 0) { 
+				if (gameManager.currentGravity.x > 0) { 
 					if (gameManager.tokenArray[0, y] == null) {
 						gameManager._AddTokenToPosInGrid(0, y, gameManager.grid);
 					}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class JT_MatchManager : MatchManagerScript
@@ -20,7 +21,6 @@ public class JT_MatchManager : MatchManagerScript
 				match = CheckForMatch(x, y) || match;
 			}
 		}
-		Debug.Log("Matched? " + match);
 		return match;
     }
 
@@ -68,9 +68,10 @@ public class JT_MatchManager : MatchManagerScript
 
 		//BUG FIX
 		foreach(JT_Token token in matchedTokens) {
-			if (gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y] != null) { 
-				switch(token.color) { 
-					default;
+			if (gameManager.tokenArray[(int)token.coord.x, (int)token.coord.y] != null) {
+				//Count colors, majority wins
+				switch(token.color) {
+					default:
 						break;
 					case JT_Token.TokenColor.red:
 						colorCount[0]++;
@@ -94,6 +95,28 @@ public class JT_MatchManager : MatchManagerScript
 				numRemoved++;
 			}
 		}
+		int majorityColor = colorCount.Max();
+		int majority = colorCount.ToList().IndexOf(majorityColor);
+
+		switch (majority) {
+			default:
+				break;
+			case 0:
+				gameManager.currentGravity = new Vector2(1, 0);
+				break;
+			case 1:
+				gameManager.currentGravity = new Vector2(0, -1);
+				break;
+			case 2:
+				gameManager.currentGravity = new Vector2(0, 1);
+				break;
+			case 3:
+				gameManager.currentGravity = new Vector2(-1, 0);
+				break;
+
+		}
+		gameManager.ToggleGravityArrows(majority);
+
 		matchedTokens = new List<JT_Token>();
 		return numRemoved;
     }

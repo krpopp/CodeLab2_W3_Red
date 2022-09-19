@@ -761,8 +761,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 9
+    height: 16
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1378,7 +1378,6 @@ MonoBehaviour:
   move: 0
   lerpPercent: 0
   lerpSpeed: 0.075
-  currentGravity: {x: 0, y: -1}
   swapToken1: {fileID: 0}
   swapToken2: {fileID: 0}
 --- !u!114 &636344705
@@ -1404,6 +1403,15 @@ MonoBehaviour:
   - {fileID: 7842774782849241122, guid: 37cd091fd3b08f148b64f660f9bd22b5, type: 3}
   - {fileID: 1381326564754457956, guid: c2e3fd58b0faa024886bd1ea69f19345, type: 3}
   fullGrid: 0
+  currentGravity: {x: 0, y: -1}
+  arrowParents:
+  - {fileID: 114787208}
+  - {fileID: 1727715463}
+  - {fileID: 810753965}
+  - {fileID: 172300269}
+  arrowColors:
+  - {r: 1, g: 1, b: 1, a: 0.5019608}
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &636344706
 MonoBehaviour:
   m_ObjectHideFlags: 0

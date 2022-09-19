@@ -6,7 +6,7 @@ public class JT_MoveTokenManager : MoveTokensScript
 {
 	new JT_GameManager gameManager;
 	//MATCH-3 MOD; Vector which affects the direction tokens fall
-	public Vector2 currentGravity = new Vector2(0, -1);
+	
 
 	public JT_Token swapToken1, swapToken2;
 	//why not protected :( 
@@ -80,16 +80,16 @@ public class JT_MoveTokenManager : MoveTokensScript
 		bool movedToken = false;
 		JT_Token token = null;
 
-		if (currentGravity.y != 0) { 
+		if (gameManager.currentGravity.y != 0) { 
 			for (int x = 0; x < gameManager.gridWidth; x++) { 
 				//tokens fall upwards
-				if (currentGravity.y > 0) { 
+				if (gameManager.currentGravity.y > 0) { 
 					for (int y = gameManager.gridHeight - 2; y > -1; y--) { 
-						if (gameManager.tokenArray[x + (int)currentGravity.x, y + (int)currentGravity.y] == null) {
+						if (gameManager.tokenArray[x + (int)gameManager.currentGravity.x, y + (int)gameManager.currentGravity.y] == null) {
 							for(int pos = y; pos > -1; pos--) {
 								token = gameManager.tokenArray[x, pos];
 								if(token != null){
-									MoveTokenToEmptyPos(x, pos, x, pos + (int)currentGravity.y, token.gameObject);
+									MoveTokenToEmptyPos(x, pos, x, pos + (int)gameManager.currentGravity.y, token.gameObject);
 									movedToken = true;
 								}
 							}
@@ -99,11 +99,11 @@ public class JT_MoveTokenManager : MoveTokensScript
 				//tokens fall downwards
 				} else {
 					for (int y = 1; y < gameManager.gridHeight; y++) {
-						if (gameManager.tokenArray[x + (int)currentGravity.x, y + (int)currentGravity.y] == null) {
+						if (gameManager.tokenArray[x + (int)gameManager.currentGravity.x, y + (int)gameManager.currentGravity.y] == null) {
 							for(int pos = y; pos < gameManager.gridHeight; pos++) {
 								token = gameManager.tokenArray[x, pos];
 								if(token != null){
-									MoveTokenToEmptyPos(x, pos, x, pos + (int)currentGravity.y, token.gameObject);
+									MoveTokenToEmptyPos(x, pos, x, pos + (int)gameManager.currentGravity.y, token.gameObject);
 									movedToken = true;
 								}
 							}
@@ -115,13 +115,13 @@ public class JT_MoveTokenManager : MoveTokensScript
 		} else {
 			for (int y = 0; y < gameManager.gridHeight; y++) { 
 				//tokens fall to the right
-				if (currentGravity.x > 0) { 
+				if (gameManager.currentGravity.x > 0) { 
 					for (int x = gameManager.gridWidth - 2; x > -1; x--) { 
-						if (gameManager.tokenArray[x + (int)currentGravity.x, y + (int)currentGravity.y] == null) {
+						if (gameManager.tokenArray[x + (int)gameManager.currentGravity.x, y + (int)gameManager.currentGravity.y] == null) {
 							for(int pos = x; pos > -1; pos--) {
 								token = gameManager.tokenArray[pos, y];
 								if(token != null){
-									MoveTokenToEmptyPos(pos, y, pos + (int)currentGravity.x, y, token.gameObject);
+									MoveTokenToEmptyPos(pos, y, pos + (int)gameManager.currentGravity.x, y, token.gameObject);
 									movedToken = true;
 								}
 							}
@@ -131,11 +131,11 @@ public class JT_MoveTokenManager : MoveTokensScript
 				//tokens fall to the left
 				} else {
 					for (int x = 1; x < gameManager.gridWidth; x++) {
-						if (gameManager.tokenArray[x + (int)currentGravity.x, y + (int)currentGravity.y] == null) {
+						if (gameManager.tokenArray[x + (int)gameManager.currentGravity.x, y + (int)gameManager.currentGravity.y] == null) {
 							for(int pos = x; pos < gameManager.gridWidth; pos++) {
 								token = gameManager.tokenArray[pos, y];
 								if(token != null){
-									MoveTokenToEmptyPos(pos, y, pos + (int)currentGravity.x, y, token.gameObject);
+									MoveTokenToEmptyPos(pos, y, pos + (int)gameManager.currentGravity.x, y, token.gameObject);
 									movedToken = true;
 								}
 							}
