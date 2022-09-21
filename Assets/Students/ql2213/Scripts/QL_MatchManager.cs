@@ -167,28 +167,63 @@ public class QL_MatchManager : MatchManagerScript
 				//if Length is more than 2, then destroy every token horizontally  
 				if (horizonMatchLength > 2)
 				{
-					for (int i = x; i < x + horizonMatchLength; i++)
+					//if have more than 3 matches, clear the whole horizontal line
+					if (horizonMatchLength > 3)
 					{
-						GameObject token = gameManager.gridArray[i, y];
-						Destroy(token);
+						for (int i = 0; i < gameManager.gridWidth; i++)
+						{
+							GameObject token = gameManager.gridArray[i, y];
+							Destroy(token);
 
-						gameManager.gridArray[i, y] = null;
-						numRemoved++;
+							gameManager.gridArray[i, y] = null;
+							numRemoved++;
+						}
 					}
+					else 
+					{
+						for (int i = x; i < x + horizonMatchLength; i++)
+						{
+							GameObject token = gameManager.gridArray[i, y];
+							Destroy(token);
+
+							gameManager.gridArray[i, y] = null;
+							numRemoved++;
+						}
+					}
+					
 				}
 				if (verticalMatchLength > 2)
 				{
-					for (int i = y; i < y + verticalMatchLength; i++)
+					//if more than 3 matches, clear the whole verticle line
+					if (verticalMatchLength > 3)
 					{
-
-						GameObject token = gameManager.gridArray[x, i];
-						if (token != null)
+						for (int i = 0; i < gameManager.gridHeight; i++)
 						{
-							Destroy(token);
+
+							GameObject token = gameManager.gridArray[x, i];
+							if (token != null)
+							{
+								Destroy(token);
+							}
+							gameManager.gridArray[x, i] = null;
+							numRemoved++;
 						}
-						gameManager.gridArray[x, i] = null;
-						numRemoved++;
 					}
+					else 
+					{
+						for (int i = y; i < y + verticalMatchLength; i++)
+						{
+
+							GameObject token = gameManager.gridArray[x, i];
+							if (token != null)
+							{
+								Destroy(token);
+							}
+							gameManager.gridArray[x, i] = null;
+							numRemoved++;
+						}
+					}
+					
 				}
 			}
 		}
