@@ -6,7 +6,39 @@ using UnityEngine.TerrainTools;
 
 public class Cam_MatchManager : MatchManagerScript
 {
-    public List<Vector2Int> dualMatchList = new List<Vector2Int>();
+    private List<Vector2Int> dualMatchList = new List<Vector2Int>();
+
+    private Cam_InputManager InputManager;
+
+    public override void Start()
+    {
+        gameManager = GetComponent<Cam_GameManager>();
+        InputManager = GetComponent<Cam_InputManager>();
+    }
+    
+    public override bool GridHasMatch()
+    {
+        bool match = false;
+        
+        for(int x = 0; x < gameManager.gridWidth; x++){ //for each position in grid width, and for each position in grid height,
+            for(int y = 0; y < gameManager.gridHeight ; y++){ //
+                if(x < gameManager.gridWidth - 2){ //Checks if this x is one of the last elements in the row, since the
+                    //match check needs to be performed through tthe first element of the grid row (left ot right)
+                    match = match || GridHasHorizontalMatch(x, y); //checks if match is true or false based on hasMATCH function
+                }
+
+                //-----------------------------------
+                if (y < gameManager.gridWidth - 2)
+                { //Checks if this x is one of the last elements in the row, since the
+                    //match check needs to be performed through tthe first element of the grid row (left ot right)
+                    match = match || GridHasVerticalMatch(x, y); //checks if match is true or false based on hasMATCH function. 
+                }
+            }
+        }
+
+        
+        return match; //returns the bool value.
+    }
     
     public bool GridHasVerticalMatch(int x, int y)
     {
@@ -84,7 +116,7 @@ public class Cam_MatchManager : MatchManagerScript
                         {
                             GameObject token = gameManager.gridArray[i, y];
                             dualMatchList.Add(new Vector2Int(i, y));
-                            numRemoved++;
+                            //numRemoved++;
                         }
                     }
                 }
@@ -99,7 +131,7 @@ public class Cam_MatchManager : MatchManagerScript
                         {
                             GameObject token = gameManager.gridArray[x, i];
                             dualMatchList.Add(new Vector2Int(x, i));
-                            numRemoved++;
+                            //numRemoved++;
                         }
                     }
                 }
@@ -110,8 +142,11 @@ public class Cam_MatchManager : MatchManagerScript
         {
             Destroy(gameManager.gridArray[dualMatchList[i].x, dualMatchList[i].y]);
             gameManager.gridArray[dualMatchList[i].x, dualMatchList[i].y] = null;
+            numRemoved++; //having numRemoved in the previous forloops of remove matches is redundant, since
+            //we can just have it here. 
         }
         dualMatchList.Clear();
+        InputManager.moveCount++;
         return numRemoved;
     }
 }
