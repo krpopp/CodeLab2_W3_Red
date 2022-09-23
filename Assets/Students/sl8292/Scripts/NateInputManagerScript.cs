@@ -25,6 +25,7 @@ public class NateInputManagerScript : InputManagerScript
                             //	to fix the diagonally swapping bug
                         {
                             moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);//switches the two object's positions, and states that they are reversible.
+                            Debug.Log("enemy do action");
                         }
                         selected = null;//empties selected game object. 
                     }
