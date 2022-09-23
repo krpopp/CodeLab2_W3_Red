@@ -10,6 +10,7 @@ public class mh_Repopulate : MonoBehaviour
     public virtual void Start()
     {
         gameManager = GetComponent<mh_GameManager>();
+        mod = GetComponent<mh_Mod>();
     }
 
     public virtual void AddNewTokensToRepopulateGrid()
@@ -22,7 +23,6 @@ public class mh_Repopulate : MonoBehaviour
                 gameManager.AddTokenToPosInGrid(x, gameManager.gridHeight - 1, gameManager.grid);
 
                 mod.Shuffle(gameManager.gridArray);
-
             }
         }
     }

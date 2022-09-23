@@ -6,7 +6,6 @@ using UnityEngine;
 public class mh_MatchManager : MonoBehaviour
 {
     protected mh_GameManager gameManager;
-    public mh_Mod mod;
 
     public virtual void Start()
     {
