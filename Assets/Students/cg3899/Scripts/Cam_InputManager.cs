@@ -12,13 +12,18 @@ public class Cam_InputManager : InputManagerScript
     public int timerTranstion;//after this value is reached timer will speed up. 
 
     public TextMeshProUGUI moveCounter;
+    public TextMeshProUGUI endGameText;
+
+    private Cam_MatchManager camMatchManager;
 
     public override void Start()
     {
         moveManager = GetComponent<Cam_MoveToken>();
         gameManager = GetComponent<Cam_GameManager>();
+        camMatchManager = GetComponent<Cam_MatchManager>();
 
         moveCounter.text = "Moves Left: " + moveCount;
+        endGameText.text = " ";
 
         timerTranstion = 0; //this will ensure that when the game starts the player will bet about time cycles of the
                             //timer cycling before it starts to speed up. 
@@ -29,8 +34,11 @@ public class Cam_InputManager : InputManagerScript
 
     private void Update()
     {
-        moveCounter.text = "Moves Left: " + moveCount;
-        
+        if (moveCount >= 0) //will ensure that movecount is not still being tallied after it reaches 0.
+        {
+            moveCounter.text = "Moves Left: " + moveCount;
+        }
+
     }
 
     private void CountDown()
@@ -81,5 +89,26 @@ public class Cam_InputManager : InputManagerScript
                 }
             }
         }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    public void GameOver()
+    {
+            for (int x = 0; x < gameManager.gridWidth; x ++)
+            {
+                for (int y = 0; y < gameManager.gridHeight; y++)
+                {
+                    Destroy(gameManager.gridArray[x, y]);
+                    camMatchManager.dualMatchList.Add(new Vector2Int(x, y));
+                    //Debug.Log("you lose");
+                }
+            }
+            
+            endGameText.text = "Game Over";
+            Destroy(gameManager); //destroys the gamemanager, ensuring it doesn't repopulate the grid
+                                //after the tokens have been destroyed. 
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.TerrainTools;
 
 public class Cam_MatchManager : MatchManagerScript
 {
-    private List<Vector2Int> dualMatchList = new List<Vector2Int>();
+    public List<Vector2Int> dualMatchList = new List<Vector2Int>();
 
     private Cam_InputManager InputManager;
 
@@ -149,7 +149,7 @@ public class Cam_MatchManager : MatchManagerScript
         //if the number of removed tokens is greater than 4 it will add that number plus one to the move counter.
         if (numRemoved >= 4)
         {
-            InputManager.moveCount = (InputManager.moveCount + (numRemoved + 1));
+            InputManager.moveCount = (InputManager.moveCount + ((numRemoved/2) + 1));
         }
         else //otherwise will just add a normal amount of 1 to the count. 
         {
