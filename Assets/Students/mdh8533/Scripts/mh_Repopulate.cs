@@ -5,6 +5,7 @@ using UnityEngine;
 public class mh_Repopulate : MonoBehaviour
 {
     protected mh_GameManager gameManager;
+    public mh_Mod mod;
 
     public virtual void Start()
     {
@@ -19,6 +20,9 @@ public class mh_Repopulate : MonoBehaviour
             if (token == null)
             {
                 gameManager.AddTokenToPosInGrid(x, gameManager.gridHeight - 1, gameManager.grid);
+
+                mod.Shuffle(gameManager.gridArray);
+
             }
         }
     }

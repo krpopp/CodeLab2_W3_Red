@@ -2,31 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class mh_Mod : MonoBehaviour
 {
-    public static void Shuffle(GameObject[] gameObjects)
+    GameObject current;
+    GameObject target;
+    GameObject temporary;
+
+    public mh_GameManager gameManager;
+
+    public void Shuffle(GameObject[,] gameObjects)
     {
-        for (int i = 0; i < gameObjects.Length; i++)
+        for (int x = 0; x < gameManager.gridWidth; x++)
         {
-            //find random index
-            int destIndex = Randomize(0, gameObjects.Length);
-            GameObject source = gameObjects[i];
-            GameObject dest = gameObjects[destIndex];
-
-            //if not identical
-            if (source != dest)
+            for (int y = 0; y < gameManager.gridHeight; y++)
             {
-                //swap position
-                source.transform.position = dest.transform.position;
+                int destIndexX = Random.Range(0, gameManager.gridWidth);
+                int destIndexY = Random.Range(0, gameManager.gridHeight);
 
-                gameObjects[i] = gameObjects[destIndex];
+                GameObject current = gameManager.gridArray[x, y];
+                GameObject target = gameManager.gridArray[destIndexX, destIndexY];
+                GameObject temporary = target;
+
+                gameManager.gridArray[destIndexX, destIndexY] = current;
+                gameManager.gridArray[x, y] = temporary;
+
             }
         }
-    }
-
-    private static int Randomize(int v, int length)
-    {
-        throw new NotImplementedException();
     }
 }
