@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MatchManagerScript : MonoBehaviour {
 
@@ -93,4 +94,18 @@ public class MatchManagerScript : MonoBehaviour {
 		return numRemoved;
 	}
 
+    internal void GridHasHorizontalMatch()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void GetHorizontalMatchLength()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void MakeGrid()
+    {
+        throw new NotImplementedException();
+    }
 }
