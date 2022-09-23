@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class Cam_InputManager : InputManagerScript
 {
     public int moveCount; //will track a limited amount of moves.
+    public int timerTranstion;//after this value is reached timer will speed up. 
 
     public TextMeshProUGUI moveCounter;
 
@@ -19,11 +20,32 @@ public class Cam_InputManager : InputManagerScript
 
         moveCounter.text = "Moves Left: " + moveCount;
 
+        timerTranstion = 0; //this will ensure that when the game starts the player will bet about time cycles of the
+                            //timer cycling before it starts to speed up. 
+
+        Invoke("CountDown", 4);
+
     }
 
     private void Update()
     {
         moveCounter.text = "Moves Left: " + moveCount;
+        
+    }
+
+    private void CountDown()
+    {
+        moveCount--;
+        timerTranstion++;
+        
+        if (timerTranstion <= 10) //as long as timer transition is below 10, countdown will be called "every" 2 seconds.
+        {
+            Invoke("CountDown", 2);
+        }
+        else
+        {
+            Invoke("CountDown", 1);
+        }
     }
 
     public override void SelectToken()

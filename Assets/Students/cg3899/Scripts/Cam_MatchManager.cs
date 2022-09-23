@@ -36,7 +36,6 @@ public class Cam_MatchManager : MatchManagerScript
             }
         }
 
-        
         return match; //returns the bool value.
     }
     
@@ -109,7 +108,7 @@ public class Cam_MatchManager : MatchManagerScript
                 if (x < gameManager.gridWidth - 2)
                 {
                     int horizonMatchLength = GetHorizontalMatchLength(x, y);
-
+                    //InputManager.moveCount++; - this doesn't work because its always going through the loop and for each time it's adding to the move count. 
                     if (horizonMatchLength > 2)
                     {
                         for (int i = x; i < x + horizonMatchLength; i++)
@@ -146,7 +145,16 @@ public class Cam_MatchManager : MatchManagerScript
             //we can just have it here. 
         }
         dualMatchList.Clear();
-        InputManager.moveCount++;
-        return numRemoved;
+        
+        //if the number of removed tokens is greater than 4 it will add that number plus one to the move counter.
+        if (numRemoved >= 4)
+        {
+            InputManager.moveCount = (InputManager.moveCount + (numRemoved + 1));
+        }
+        else //otherwise will just add a normal amount of 1 to the count. 
+        {
+            InputManager.moveCount++;
+        }
+        return numRemoved; //returns number of tokens removed. 
     }
 }
