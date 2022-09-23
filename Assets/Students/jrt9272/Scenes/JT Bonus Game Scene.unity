@@ -1694,7 +1694,6 @@ MonoBehaviour:
   - {fileID: 3590881106070372459, guid: f57189bc0b31e05458ffd1099c6f53af, type: 3}
   - {fileID: 7842774782849241122, guid: 37cd091fd3b08f148b64f660f9bd22b5, type: 3}
   - {fileID: 1381326564754457956, guid: c2e3fd58b0faa024886bd1ea69f19345, type: 3}
-  - {fileID: 1381326564754457956, guid: 3861f1a5b125176428eee115523b4d0e, type: 3}
   - {fileID: 6312397898252256304, guid: 81c39d757207de840be79c286aeed134, type: 3}
   fullGrid: 0
   currentGravity: {x: 0, y: -1}
