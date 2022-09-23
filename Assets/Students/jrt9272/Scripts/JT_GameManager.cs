@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class JT_GameManager : GameManagerScript
 {
+	//new token class array
 	public JT_Token[,] tokenArray;
 
+	//new serializing of token prefabs
 	[SerializeField] GameObject[] tokenPrefabs; 
+	//new bool tracking first frame of full grid
 	public bool fullGrid = false;
+	//new Vector2 for direction of gravity
 	public Vector2 currentGravity = new Vector2(0, -1);
+	//new references for gravity visuals
 	public GameObject[] arrowParents;
 	public Color[] arrowColors;
 
+	//overridden for child class references and initializing new vars
 	public override void Start () {
 		matchManager = GetComponent<JT_MatchManager>();
 		inputManager = GetComponent<JT_InputManager>();
@@ -20,11 +26,10 @@ public class JT_GameManager : GameManagerScript
 
 		tokenArray = new JT_Token[gridWidth, gridHeight];
 		MakeGrid();
-
-
 	}
 
-	
+	// Checks grid state every frame and triggers other classes depending on its state
+	// Overriden for bug fixes, otherwise the same
     public override void Update() { 
 		if (!GridHasEmpty()){
 			if (!fullGrid) { // BUG FIX; first frame the grid is full
@@ -47,7 +52,7 @@ public class JT_GameManager : GameManagerScript
 		}
 	}
 
-
+	// Rewritten to access from overriden function
 	void MakeGrid() {
 		grid = new GameObject("TokenGrid");
 		for(int x = 0; x < gridWidth; x++){
@@ -58,6 +63,7 @@ public class JT_GameManager : GameManagerScript
 	}
 
 	//Returns true when there is an empty space
+	//Overridden to acces new token array
 	public override bool GridHasEmpty() {
 		for(int x = 0; x < gridWidth; x++){
 			for(int y = 0; y < gridHeight ; y++){
@@ -69,6 +75,7 @@ public class JT_GameManager : GameManagerScript
 		return false;
 	}
 
+	//Couldn't override, rewritten to access new token array
 	public void _AddTokenToPosInGrid(int x, int y, GameObject parent){
 		Vector3 position = GetWorldPositionFromGridPosition(x, y);
 		JT_Token token = 
@@ -80,17 +87,18 @@ public class JT_GameManager : GameManagerScript
 		token.coord = new Vector2 (x,y);
 	}
 
-	public void ToggleGravityArrows(int index) { 
-		if (index != 4) { 
-			for (int i = 0; i < arrowParents.Length; i++) {
-				Transform pTrans = arrowParents[i].transform;
-				foreach(Transform child in pTrans) {
-					if (index == i)
-						child.GetComponent<SpriteRenderer>().color = arrowColors[1];
-					else
-						child.GetComponent<SpriteRenderer>().color = arrowColors[0];
-				}
+	//new function, updates visuals for gravity change
+	public void ToggleGravityArrows(int index) {  
+		for (int i = 0; i < arrowParents.Length; i++) {
+			Transform pTrans = arrowParents[i].transform;
+			foreach(Transform child in pTrans) {
+				//if this gravity is active
+				if (index == i)
+					child.GetComponent<SpriteRenderer>().color = arrowColors[1];
+				else
+					child.GetComponent<SpriteRenderer>().color = arrowColors[0];
 			}
 		}
 	}
+	
 }
