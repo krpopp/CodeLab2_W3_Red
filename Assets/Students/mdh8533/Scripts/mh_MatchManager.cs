@@ -6,6 +6,8 @@ using UnityEngine;
 public class mh_MatchManager : MonoBehaviour
 {
     protected mh_GameManager gameManager;
+    public mh_Mod mod;
+    public bool ShuffleMatch=false;
 
     public virtual void Start()
     {
@@ -23,6 +25,7 @@ public class mh_MatchManager : MonoBehaviour
                 if (x < gameManager.gridWidth - 2)
                 {
                     match = match || GridHasHorizontalMatch(x, y);
+                    ShuffleMatch = match;
                 }
             }
             for (int y = 0; y < gameManager.gridHeight; y++)
@@ -30,6 +33,7 @@ public class mh_MatchManager : MonoBehaviour
                 if (y < gameManager.gridHeight - 2)
                 {
                     match = match || GridHasVerticalMatch(x, y);
+                    ShuffleMatch = match;
                 }
             }
         }
@@ -220,6 +224,12 @@ public class mh_MatchManager : MonoBehaviour
 
         return numRemoved;
 
+    }
+
+    public void Update()
+    {
+        if(!ShuffleMatch)
+        mod.Shuffle(gameManager.gridArray);
     }
 
     internal void GridHasHorizontalMatch()

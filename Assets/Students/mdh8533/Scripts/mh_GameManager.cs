@@ -18,6 +18,8 @@ public class mh_GameManager : MonoBehaviour
     protected Object[] tokenTypes;
     GameObject selected;
 
+    public mh_Mod mod;
+
     public virtual void Start()
     {
         tokenTypes = (Object[])Resources.LoadAll("_Core/Tokens/");
@@ -51,6 +53,10 @@ public class mh_GameManager : MonoBehaviour
             if (!moveTokenManager.MoveTokensToFillEmptySpaces())
             {
                 repopulateManager.AddNewTokensToRepopulateGrid();
+            }
+            else
+            {
+                //mod.Shuffle(gridArray);
             }
         }
     }

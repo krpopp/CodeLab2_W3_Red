@@ -21,9 +21,15 @@ public class mh_Repopulate : MonoBehaviour
             if (token == null)
             {
                 gameManager.AddTokenToPosInGrid(x, gameManager.gridHeight - 1, gameManager.grid);
-
-                mod.Shuffle(gameManager.gridArray);
             }
         }
+
+        //mod.Shuffle(gameManager.gridArray);
+
     }
+
+    //public void Update()
+    //{
+    //    mod.Shuffle(gameManager.gridArray);
+    //}
 }

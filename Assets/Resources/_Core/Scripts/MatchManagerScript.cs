@@ -17,7 +17,6 @@ public class MatchManagerScript : MonoBehaviour {
 			for(int y = 0; y < gameManager.gridHeight ; y++){
 				if(x < gameManager.gridWidth - 2){
 					match = match || GridHasHorizontalMatch(x, y);
-                    Debug.Log("grid has match");
                 }
             }
 		}

@@ -14,6 +14,8 @@ public class mh_Mod : MonoBehaviour
 
     public void Shuffle(GameObject[,] gameObjects)
     {
+        Debug.Log(gameManager.gridWidth);
+
         for (int x = 0; x < gameManager.gridWidth; x++)
         {
             for (int y = 0; y < gameManager.gridHeight; y++)

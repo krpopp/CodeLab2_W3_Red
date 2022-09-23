@@ -187,6 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dfb6998fc1ec4417b237bb89d008e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mod: {fileID: 636344706}
+  ShuffleMatch: 0
 --- !u!114 &636344703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +205,7 @@ MonoBehaviour:
   gridHeight: 8
   tokenSize: 1
   grid: {fileID: 0}
+  mod: {fileID: 636344706}
 --- !u!114 &636344704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0870c62242494b7cb3adc9b0a848fd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mod: {fileID: 0}
+  mod: {fileID: 636344706}
 --- !u!114 &636344705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0173906c8678417f85d559dcee79529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 636344703}
 --- !u!1 &853697441
 GameObject:
   m_ObjectHideFlags: 0
