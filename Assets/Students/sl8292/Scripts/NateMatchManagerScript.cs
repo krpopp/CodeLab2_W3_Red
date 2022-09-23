@@ -235,7 +235,6 @@ public class NateMatchManagerScript : MatchManagerScript
     {
         if (token.GetComponent<SpriteRenderer>().sprite.name == "Blue")
         {
-            Debug.Log("Gain Mana");
             if (nateGameManager.currentMana < nateGameManager.maxMana)
             {
                 nateGameManager.currentMana++;
@@ -245,7 +244,6 @@ public class NateMatchManagerScript : MatchManagerScript
         
         if (token.GetComponent<SpriteRenderer>().sprite.name == "Yellow")
         {
-            Debug.Log("Gain Exp");
             if (nateGameManager.exp < nateGameManager.maxExp - 1)
             {
                 nateGameManager.exp++;
@@ -260,14 +258,12 @@ public class NateMatchManagerScript : MatchManagerScript
         
         if (token.GetComponent<SpriteRenderer>().sprite.name == "Red")
         {
-            Debug.Log("Deal Damage");
             nateGameManager.enemyHealth--;
             nateUIManager.txt_EnemyHp.text = "HP: " + nateGameManager.enemyHealth;
         }
         
         if (token.GetComponent<SpriteRenderer>().sprite.name == "purple")
         {
-            Debug.Log("Gain Armor");
             if (nateGameManager.currentArmor < nateGameManager.maxArmor)
             {
                 nateGameManager.currentArmor++;
@@ -277,7 +273,6 @@ public class NateMatchManagerScript : MatchManagerScript
         
         if (token.GetComponent<SpriteRenderer>().sprite.name == "Green")
         {
-            Debug.Log("Heal");
             if (nateGameManager.currentHealth < nateGameManager.maxHealth)
             {
                 nateGameManager.currentHealth++;

@@ -1,7 +1,13 @@
 using UnityEngine;
 
 public class NateInputManagerScript : InputManagerScript
-    {
+{
+        protected NateGameManager nateGameManager;
+        public override void Start () {
+            base.Start();
+            nateGameManager = GetComponent<NateGameManager>();
+        }
+        
         public override void SelectToken()
         {
             if (Input.GetMouseButtonDown(0))//if left mouse button is clicked, 
@@ -25,6 +31,8 @@ public class NateInputManagerScript : InputManagerScript
                             //	to fix the diagonally swapping bug
                         {
                             moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);//switches the two object's positions, and states that they are reversible.
+                            nateGameManager.EnemyAction();
+                            nateGameManager.EnemySelectAction();
                             Debug.Log("enemy do action");
                         }
                         selected = null;//empties selected game object. 
