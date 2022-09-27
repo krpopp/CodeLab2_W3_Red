@@ -6,29 +6,27 @@ using Unity.VisualScripting;
 public class Lorg_MatchManager : MatchManagerScript
 {
 	public List<Vector2Int> dualMatchList = new List<Vector2Int>();
-    public override bool GridHasMatch()
-    {
-		bool match = false;  //declaring match bool and setting it false. 
-		
-		for(int x = 0; x < gameManager.gridWidth; x++){ //for each position in grid width, and for each position in grid height,
-			for(int y = 0; y < gameManager.gridHeight ; y++){ //
-				if(x < gameManager.gridWidth - 2){ //Checks if this x is one of the last elements in the row, since the
-												   //match check needs to be performed through tthe first element of the grid row (left ot right)
-					match = match || GridHasHorizontalMatch(x, y); //checks if match is true or false based on hasMATCH function. 
-				}
+	new Lorg_GameManager gameManager;
 
-				//-----------------------------------
-				if (y < gameManager.gridWidth - 2)
-				{ //Checks if this x is one of the last elements in the row, since the
-				  //match check needs to be performed through tthe first element of the grid row (left ot right)
-					match = match || GridHasVerticalMatch(x, y); //checks if match is true or false based on hasMATCH function. 
-				}
-				//----------------------------------------
+	public override void Start () { 
+		gameManager = GetComponent<Lorg_GameManager>(); //sets gamemanager script reference. 
+	}
+	public override bool GridHasMatch(){
+	bool match = false;
+	
+	for(int x = 0; x < gameManager.gridWidth; x++){
+		for(int y = 0; y < gameManager.gridHeight ; y++){
+			if(x < gameManager.gridWidth - 2){
+				match = match || GridHasHorizontalMatch(x, y);
+			}
+			if (y < gameManager.gridWidth - 2)
+			{
+				match = match || GridHasVerticalMatch(x, y);
 			}
 		}
-
-		return match; //returns the bool value. 
-    }
+	}
+	return match;
+}
 
     public bool GridHasVerticalMatch(int x, int y)
 	{ //checks if theres a horizontal match based on given grid position of objects. 
@@ -90,6 +88,7 @@ public class Lorg_MatchManager : MatchManagerScript
 		return matchLength; //returns match lenght
 	}
 
+
     public override int RemoveMatches(){ //funciton to removed matched objects. 
 		int numRemoved = 0; //declars integer value and sets to zero. 
 
@@ -116,9 +115,14 @@ public class Lorg_MatchManager : MatchManagerScript
 								
 						}
 					}
+					if (horizonMatchLength == 4)
+					{
+						for(int i = x; i < x + horizonMatchLength; i++)
+						{
+							gameManager.AddSpecialToken(x, y, gameManager.grid);
+						}
+					}
 				}
-				//------------------------
-
 				
 				if (y < gameManager.gridHeight - 2)
 				{
@@ -138,11 +142,11 @@ public class Lorg_MatchManager : MatchManagerScript
 							numRemoved++; //adds the amount of tokens removed from grid. 
 						}
 					}
+					if (verticalMatchLength == 4)
+					{	
+						gameManager.AddSpecialToken(x, y, gameManager.grid);
+					}
 				}
-				
-				//------------------------
-
-
 			}
 		}
 
