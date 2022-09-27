@@ -44,7 +44,7 @@ public class GameManagerScript : MonoBehaviour {
 		}
 	}
 
-	void MakeGrid() {
+	protected virtual void MakeGrid() {
 		grid = new GameObject("TokenGrid");
 		for(int x = 0; x < gridWidth; x++){
 			for(int y = 0; y < gridHeight; y++){
