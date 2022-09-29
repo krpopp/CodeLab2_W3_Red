@@ -6,8 +6,6 @@ using Unity.VisualScripting;
 public class Lorg_MatchManager : MatchManagerScript
 {
 	public List<Vector2Int> dualMatchList = new List<Vector2Int>();
-	new Lorg_GameManager gameManager;
-
 	public override void Start () { 
 		gameManager = GetComponent<Lorg_GameManager>(); //sets gamemanager script reference. 
 	}
@@ -119,7 +117,7 @@ public class Lorg_MatchManager : MatchManagerScript
 					{
 						for(int i = x; i < x + horizonMatchLength; i++)
 						{
-							gameManager.AddSpecialToken(x, y, gameManager.grid);
+							(gameManager as Lorg_GameManager).AddSpecialToken(x, y, gameManager.grid);
 						}
 					}
 				}
@@ -144,7 +142,7 @@ public class Lorg_MatchManager : MatchManagerScript
 					}
 					if (verticalMatchLength == 4)
 					{	
-						gameManager.AddSpecialToken(x, y, gameManager.grid);
+						(gameManager as Lorg_GameManager).AddSpecialToken(x, y, gameManager.grid);
 					}
 				}
 			}

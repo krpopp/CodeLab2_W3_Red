@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Lorg_GameManager : GameManagerScript
 {
-	new Lorg_MatchManager matchManager;
-	new Lorg_InputManager inputManager;
-	new Lorg_RepopulateScript repopulateManager;
-	new Lorg_MoveTokenScript moveTokenManager;
-	new public GameObject[,] gridArray;
-	new protected Object[] tokenTypes;
+	//new Lorg_MatchManager matchManager;
+	//new Lorg_InputManager inputManager;
+	//new Lorg_RepopulateScript repopulateManager;
+	//new Lorg_MoveTokenScript moveTokenManager;
+	//new public GameObject[,] gridArray;
+	//new protected Object[] tokenTypes;
 	public override void Start () {
 		tokenTypes = (Object[])Resources.LoadAll("_Core/Tokens/");
 		Debug.Log(tokenTypes.Length);
@@ -21,10 +21,15 @@ public class Lorg_GameManager : GameManagerScript
 		repopulateManager = GetComponent<Lorg_RepopulateScript>();
 		moveTokenManager = GetComponent<Lorg_MoveTokenScript>();
 	}
-	public override void Update(){
-		base.Update();
-}
+	
+// 	public override void Update(){
+// 		//base.Update();
 
+// }
+
+	// protected override void MakeGrid() {
+	// 	base.MakeGrid();
+	// }
     public virtual void AddSpecialToken(int x, int y, GameObject parent)
     {
 		Debug.Log("specialtokenadded)");
