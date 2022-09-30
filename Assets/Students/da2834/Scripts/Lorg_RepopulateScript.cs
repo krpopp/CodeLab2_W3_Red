@@ -5,6 +5,9 @@ using UnityEngine;
 public class Lorg_RepopulateScript : RepopulateScript
 {
 	public override void Start () {
-		gameManager = GetComponent<Lorg_GameManager>();
+		gameManager = GetComponent<Lorg_GameManager>(); //just resetting the gamemanager ref to my script
 	}
+
+	
+
 }

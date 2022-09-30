@@ -19,66 +19,42 @@ public class Lorg_GameManager : GameManagerScript
 	}
 	public override void Start () {
 		tokenTypes = (Object[])Resources.LoadAll("_Core/Tokens/");
-		Debug.Log(tokenTypes.Length);
 		gridArray = new GameObject[gridWidth, gridHeight];
 		MakeGrid();
 		
-		matchManager = GetComponent<Lorg_MatchManager>();
+		matchManager = GetComponent<Lorg_MatchManager>(); //resetting the variable as my scripts 26`29
 		inputManager = GetComponent<Lorg_InputManager>();
 		repopulateManager = GetComponent<Lorg_RepopulateScript>();
 		moveTokenManager = GetComponent<Lorg_MoveTokenScript>();
 	}
 
-	public override void Update(){
-	if(!GridHasEmpty()){
-		if(matchManager.GridHasMatch()){
-			matchManager.RemoveMatches();
-		} else {
-			inputManager.SelectToken();
-		}
-	} else {
-			if(!moveTokenManager.move){
-			moveTokenManager.SetupTokenMove();
-			}
-			if(!moveTokenManager.MoveTokensToFillEmptySpaces()){
-				repopulateManager.AddNewTokensToRepopulateGrid();
-			}
-		}
-	}
-
-	public void TextUpdate()
-	{
-		scoreText.text = score.ToString();
-	}
-
 	public void AddSpecialTokenToPosInGrid(int x, int y, GameObject parent, bool isHorizontal)
-	{
+	{	//this function doesn't work the way I need it to work, but I left it here to at least show that I tried ;w;
 		Vector3 position = GetWorldPositionFromGridPosition(x, y);
 		GameObject token = 
 			Instantiate(tokenTypes[Random.Range(0, tokenTypes.Length)], 
 			            position, 
 			            Quaternion.identity) as GameObject;
-		token.transform.parent = parent.transform;
-		token.transform.tag = "Special";
-		GameObject arrow = Instantiate(specialTokenPrefab, token.transform);
-		//arrow.transform.parent = token.transform;
+		token.transform.parent = parent.transform; //up until this point it's basically AddTokenToPosInGrid() !
+		token.transform.tag = "Special"; //but here we add a tag to it
+		GameObject arrow = Instantiate(specialTokenPrefab, token.transform); //and instantiate a child for it
 		if (isHorizontal)
 		{
-			Quaternion rotation = Quaternion.Euler(0, 0, 90);
+			Quaternion rotation = Quaternion.Euler(0, 0, 90); //rotate it if it's supposed to be a horizontal token
 			arrow.transform.rotation = rotation;
 		}
-		if (gridArray[x,y]!= null)
+		if (gridArray[x,y]!= null) //if the grid position is not null yet (basically match manager didn't finish working)
 		{
-			Destroy(gridArray[x,y]);
+			Destroy(gridArray[x,y]); //we destroy it and empty it for the new token?
 			gridArray[x,y] = null;
 		}
-		gridArray[x, y] = token;
-		Debug.Log("X pos: " + x + " Y pos: " + y);
-		Debug.Log(token.name);
-		Debug.Log(arrow.transform.position);
+		gridArray[x, y] = token; //and place the token in this specific location
+		// Debug.Log("X pos: " + x + " Y pos: " + y);
+		// Debug.Log(token.name);
+		// Debug.Log(arrow.transform.position);
 	}
 
-	public bool GridHasSpecial()
+	public bool GridHasSpecial() //this is a function that checks if we have any special tokens, but I don't know how to use it yet
 	{
 		for(int x = 0; x < gridWidth; x++){
 		for(int y = 0; y < gridHeight ; y++){

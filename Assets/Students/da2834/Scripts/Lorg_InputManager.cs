@@ -18,8 +18,9 @@ public class Lorg_InputManager : InputManagerScript
             } else { //other wise saves position of the selected object and the collider object. 
                 Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
                 Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
-                lastSelectPos = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
+                lastSelectPos = pos2;
 
+                // ------- this line is changed here, basically a bugfix
                 if(Mathf.Abs(pos1.x - pos2.x) + Mathf.Abs(pos1.y - pos2.y) ==1){ //if absolute value of the difference between the two vectors x and y positions is one, 
                     moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true); //switches the two object's positions, and states that they are reversible.
                 }

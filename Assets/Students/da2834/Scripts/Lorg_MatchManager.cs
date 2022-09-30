@@ -5,11 +5,11 @@ using Unity.VisualScripting;
 
 public class Lorg_MatchManager : MatchManagerScript
 {
-	public List<Vector2Int> dualMatchList = new List<Vector2Int>();
+	public List<Vector2Int> dualMatchList = new List<Vector2Int>(); //this is a list of all tokens to be deleted
 	Lorg_InputManager inputManager;
 	public override void Start () { 
 		gameManager = GetComponent<Lorg_GameManager>(); //sets gamemanager script reference. 
-		inputManager = GetComponent<Lorg_InputManager>();
+		inputManager = GetComponent<Lorg_InputManager>(); //also an input manager here
 	}
 	public override bool GridHasMatch(){
 	bool match = false;
@@ -21,15 +21,15 @@ public class Lorg_MatchManager : MatchManagerScript
 			}
 			if (y < gameManager.gridWidth - 2)
 			{
-				match = match || GridHasVerticalMatch(x, y);
-			}
+				match = match || GridHasVerticalMatch(x, y); //added a vertical match here
+			} 
 		}
 	}
 	return match;
 }
 
     public bool GridHasVerticalMatch(int x, int y)
-	{ //checks if theres a horizontal match based on given grid position of objects. 
+	{ //checks if theres a vertical match based on given grid position of objects. 
 	  //generating 3 gameobjects to assign checked objects from left to right.  
 		GameObject token1 = gameManager.gridArray[x, y+0];
 		GameObject token2 = gameManager.gridArray[x, y+1];
@@ -115,7 +115,7 @@ public class Lorg_MatchManager : MatchManagerScript
 								
 						}
 					}
-					if (horizonMatchLength == 4)
+					if (horizonMatchLength == 4)  //this check is commented out because it doesn't work:( but it's for spawning a special token!
 					{
 						for(int i = x; i < x + horizonMatchLength; i++)
 						{
@@ -143,7 +143,7 @@ public class Lorg_MatchManager : MatchManagerScript
 							numRemoved++; //adds the amount of tokens removed from grid. 
 						}
 					}
-					if (verticalMatchLength == 4)
+					if (verticalMatchLength == 4) //this check is commented out because it doesn't work:( but it's for spawning a special token!
 					{
 						for(int i = x; i < x + verticalMatchLength; i++)
 						{
