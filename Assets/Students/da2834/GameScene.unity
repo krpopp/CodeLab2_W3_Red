@@ -171,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e0ae921b59c2e45b56e92746baee5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
   dualMatchList: []
 --- !u!114 &636344703
 MonoBehaviour:
@@ -216,6 +215,7 @@ MonoBehaviour:
   gridHeight: 8
   tokenSize: 1
   grid: {fileID: 0}
+  specialTokenPrefab: {fileID: 6236125587916036415, guid: 36e0904459459b1449aaa29fcc49ea16, type: 3}
 --- !u!114 &636344706
 MonoBehaviour:
   m_ObjectHideFlags: 0

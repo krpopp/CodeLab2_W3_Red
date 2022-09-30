@@ -6,8 +6,10 @@ using Unity.VisualScripting;
 public class Lorg_MatchManager : MatchManagerScript
 {
 	public List<Vector2Int> dualMatchList = new List<Vector2Int>();
+	Lorg_InputManager inputManager;
 	public override void Start () { 
 		gameManager = GetComponent<Lorg_GameManager>(); //sets gamemanager script reference. 
+		inputManager = GetComponent<Lorg_InputManager>();
 	}
 	public override bool GridHasMatch(){
 	bool match = false;
@@ -117,7 +119,8 @@ public class Lorg_MatchManager : MatchManagerScript
 					{
 						for(int i = x; i < x + horizonMatchLength; i++)
 						{
-							(gameManager as Lorg_GameManager).AddSpecialToken(x, y, gameManager.grid);
+							//(gameManager as Lorg_GameManager).AddSpecialTokenToPosInGrid((int)inputManager.lastSelectPos.x, (int)inputManager.lastSelectPos.y, gameManager.grid, true);
+							break;
 						}
 					}
 				}
@@ -141,8 +144,12 @@ public class Lorg_MatchManager : MatchManagerScript
 						}
 					}
 					if (verticalMatchLength == 4)
-					{	
-						(gameManager as Lorg_GameManager).AddSpecialToken(x, y, gameManager.grid);
+					{
+						for(int i = x; i < x + verticalMatchLength; i++)
+						{
+							//(gameManager as Lorg_GameManager).AddSpecialTokenToPosInGrid(x, y, gameManager.grid, false);
+							break;
+						}
 					}
 				}
 			}
@@ -153,6 +160,8 @@ public class Lorg_MatchManager : MatchManagerScript
 		{
 			Destroy(gameManager.gridArray[dualMatchList[i].x, dualMatchList[i].y]); //destroy each object based on it's position in the grid. 
 			gameManager.gridArray[dualMatchList[i].x, dualMatchList[i].y] = null;	//sets the grid position to null so that it can be repopulated. 
+			(gameManager as Lorg_GameManager).Score += 100; //we are adding to the score for each token in the match
+			//and also we're casting it as a child script to access a variable that only exists there
 		}
 		dualMatchList.Clear(); //clears the list. 
 		
